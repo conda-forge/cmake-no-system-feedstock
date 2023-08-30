@@ -19,6 +19,7 @@ requirements:
     - {{ compiler('cxx') }}
     - make  # [unix]
     - ninja
+    - 7za  # [win]
   run:
     - vs2015_runtime  # [win]
 
@@ -35,6 +36,7 @@ about:
   license_file:
     - Copyright.txt
     - Utilities/cmbzip2/LICENSE
+    - Utilities/cmcppdap/LICENSE
     - Utilities/cmcurl/COPYING
     - Utilities/cmexpat/COPYING
     - Utilities/cmjsoncpp/LICENSE
