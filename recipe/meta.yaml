@@ -10,14 +10,17 @@ source:
 
 build:
   number: 0
-  skip: true  # [win]
+  ignore_run_exports:
+    - vc
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - make
-    - patch
+    - make  # [unix]
+    - ninja
+  run:
+    - vs2015_runtime  # [win]
 
 test:
   commands:
