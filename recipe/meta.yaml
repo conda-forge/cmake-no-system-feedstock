@@ -10,14 +10,15 @@ source:
 
 build:
   number: 0
-  skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - make
-    - patch
+    - make   # [unix]
+    - patch  # [unix]
+    - ninja  # [win]
+    - curl   # [win]
 
 test:
   commands:
