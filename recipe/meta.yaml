@@ -34,7 +34,7 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file:
-    - Copyright.txt
+    - LICENSE.rst
     - Utilities/cmbzip2/LICENSE
     - Utilities/cmcppdap/LICENSE
     - Utilities/cmcurl/COPYING
