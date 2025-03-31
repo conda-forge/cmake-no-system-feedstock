@@ -13,7 +13,7 @@ source:
     folder: cmake-{{ version }}-windows  # [win]
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -22,6 +22,8 @@ requirements:
     - {{ compiler('cxx') }}
     - make  # [unix]
     - ninja
+  run_constrained:
+    - cmake ==dev
 
 test:
   commands:
