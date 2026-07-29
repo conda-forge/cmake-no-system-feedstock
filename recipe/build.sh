@@ -14,6 +14,17 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
     unset CFLAGS
     unset CXXFLAGS
     unset CPPFLAGS
+    # The cross-compile CMAKE_PREFIX_PATH points at the target (e.g. aarch64)
+    # sysroot.  Leaving it set makes the bundled libarchive's find_path() resolve
+    # target headers (e.g. iconv.h) into the native (build-arch) compile, leaking
+    # the target sysroot include path onto every cmlibarchive target.  That causes
+    # a header/libc mismatch: CHECK_FUNCTION_EXISTS_GLIBC finds newer glibc
+    # symbols (arc4random_buf, closefrom, close_range, ...) in the build-arch libc
+    # but the target stdlib.h/unistd.h don't declare them yet, so the compile fails
+    # with an implicit-declaration error.  The cache -DCMAKE_PREFIX_PATH below is
+    # already restricted to ${BUILD_PREFIX}, so dropping the env var makes the
+    # native build use build-arch headers consistently.
+    unset CMAKE_PREFIX_PATH
 
     mkdir -p build-native
     pushd build-native
