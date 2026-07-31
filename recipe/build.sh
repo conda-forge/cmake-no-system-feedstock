@@ -48,7 +48,17 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" == 1 ]]; then
     popd
   )
 
-  CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_FIND_ROOT_PATH=${PREFIX} -DCMAKE_INSTALL_RPATH=${PREFIX}/lib"
+  # Keep the target sysroot in CMAKE_FIND_ROOT_PATH (do NOT collapse it to just
+  # ${PREFIX}).  The build-cross phase compiles FOR the target arch, so the
+  # target sysroot headers are the correct ones to find here (unlike the
+  # build-native phase above, which must use build-arch headers).  CMake 4.4's
+  # bundled libarchive made iconv mandatory: its find_path(ICONV_INCLUDE_DIR
+  # iconv.h) only resolves iconv.h out of CMAKE_FIND_ROOT_PATH (MODE_INCLUDE=ONLY),
+  # so dropping the sysroot leaves ICONV_INCLUDE_DIR empty -> HAVE_ICONV stays
+  # false -> "iconv is required, but was not found."  With the sysroot present
+  # find_path finds <sysroot>/usr/include/iconv.h and iconv() in libc, matching
+  # the main cmake feedstock's (working) cross build.
+  CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_FIND_ROOT_PATH=${PREFIX};${CONDA_BUILD_SYSROOT} -DCMAKE_INSTALL_RPATH=${PREFIX}/lib"
   CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_PREFIX_PATH=${PREFIX}"
   mkdir build-cross
   pushd build-cross
