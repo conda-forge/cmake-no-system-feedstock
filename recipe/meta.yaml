@@ -1,4 +1,4 @@
-{% set version = "4.5.0" %}
+{% set version = "4.5.1" %}
 {% set version_major_minor = ".".join(version.split(".")[:2]) %}
 
 package:
@@ -7,9 +7,9 @@ package:
 
 source:
   - url: https://github.com/Kitware/CMake/releases/download/v{{ version }}/cmake-{{ version }}.tar.gz
-    sha256: 424352d6133e8455e020da787008e8dc67abb18820af3532572ab35657e49213
+    sha256: a79bf33cbe05686fdf79c2bbbcfe5e8e62ad16d3d540fa737cbedfeed41fb69e
   - url: https://cmake.org/files/v{{ version_major_minor }}/cmake-{{ version }}-windows-x86_64.zip  # [win]
-    sha256: 301b1728317ccd84e984b02e366a8293735bc5ac618757d3d8f58b578f062411  # [win]
+    sha256: bfe6eadb245dc8213e0d3feea316b520cb2aae92f5667ffd76059ba6b05c430c  # [win]
     folder: cmake-{{ version }}-windows  # [win]
 
 build:
